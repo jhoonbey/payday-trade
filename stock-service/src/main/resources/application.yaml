@@ -1,0 +1,38 @@
+server:
+  port: 0
+
+spring:
+  application:
+    name: stock-service
+  cloud:
+    consul:
+      discovery:
+        healthCheckPath: /management/health
+        instanceId: ${spring.application.name}:${spring.application.instance-id:${random.value}}
+      config:
+        watch:
+          enabled: false
+    stream:
+      kafka:
+        binder:
+          brokers: ${KAFKA_URI:localhost:9092}
+      bindings:
+        input:
+          group: create-order-group
+          destination: create_order
+          contentType: application/json
+        output:
+          group: complete-order-group
+          destination: complete_order
+          contentType: application/json
+
+management:
+  endpoints:
+    web:
+      base-path: /management
+      exposure:
+        include: [ "configprops", "env", "health", "info", "threaddump", "logfile", "prometheus" ]
+
+redis:
+  server:
+    url: redis://${REDIS_URI:localhost:6379}

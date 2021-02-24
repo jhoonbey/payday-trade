@@ -1,0 +1,2 @@
+rootProject.name = 'customer-service'
+rootProject.buildFileName = 'build.gradle.java'

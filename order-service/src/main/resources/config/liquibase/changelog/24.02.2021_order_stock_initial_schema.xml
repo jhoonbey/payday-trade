@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="utf-8"?>
+<databaseChangeLog
+        xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.5.xsd">
+
+    <changeSet id="create_order_sequence" author="Jeyhun A. Rahimov">
+        <createSequence sequenceName="order_seq" startValue="1" incrementBy="1"/>
+    </changeSet>
+
+    <changeSet id="create_order_table" author="Jeyhun A. Rahimov">
+        <createTable tableName="order_table">
+            <column name="id" type="BIGINT">
+                <constraints primaryKey="true"/>
+            </column>
+            <column name="stock_id" type="BIGINT"/>
+            <column name="account_number" type="varchar(45)"/>
+            <column name="quantity" type="INT"/>
+            <column name="order_type" type="varchar(45)"/>
+            <column name="order_state" type="varchar(45)"/>
+            <column name="target_price" type="decimal(10,2)">
+                <constraints nullable="false"/>
+            </column>
+        </createTable>
+
+    </changeSet>
+
+</databaseChangeLog>

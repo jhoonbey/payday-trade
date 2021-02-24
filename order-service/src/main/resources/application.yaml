@@ -1,0 +1,45 @@
+server:
+  port: 0
+
+spring:
+  datasource:
+    driver-class-name: org.h2.Driver
+    url: jdbc:h2:mem:orderdb
+    username: sa
+    password: password
+  jpa:
+    database-platform: org.hibernate.dialect.H2Dialect
+
+  application:
+    name: order-service
+  cloud:
+    consul:
+      discovery:
+        healthCheckPath: /management/health
+        instanceId: ${spring.application.name}:${spring.application.instance-id:${random.value}}
+      config:
+        watch:
+          enabled: false
+    stream:
+      kafka:
+        binder:
+          brokers: ${KAFKA_URI:localhost:9092}
+      bindings:
+        input:
+          group: complete-order-group
+          destination: complete_order_notification
+          contentType: application/json
+        output:
+          group: create-order-group
+          destination: create_order
+          contentType: application/json
+
+  liquibase:
+    change-log: classpath:config/liquibase/master.xml
+
+management:
+  endpoints:
+    web:
+      base-path: /management
+      exposure:
+        include: [ "configprops", "env", "health", "info", "threaddump", "logfile", "prometheus" ]

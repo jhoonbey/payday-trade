@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="utf-8"?>
+<databaseChangeLog
+        xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.5.xsd">
+
+    <changeSet id="create_account_sequence" author="Jeyhun A. Rahimov">
+        <createSequence sequenceName="account_seq" startValue="1" incrementBy="1"/>
+    </changeSet>
+
+    <changeSet id="create_account_stock_sequence" author="Jeyhun A. Rahimov">
+        <createSequence sequenceName="account_stock_seq" startValue="1" incrementBy="1"/>
+    </changeSet>
+
+    <changeSet id="create_account_and_account_stock_table" author="Jeyhun A. Rahimov">
+        <createTable tableName="account">
+            <column name="id" type="BIGINT">
+                <constraints primaryKey="true"/>
+            </column>
+            <column name="account_number" type="varchar(45)"/>
+            <column name="customer_id" type="BIGINT"/>
+            <column name="balance" type="DECIMAL(10,2)" defaultValueNumeric="0.00"/>
+            <column name="hold_amount" type="DECIMAL(10,2)" defaultValueNumeric="0.00"/>
+            <column name="creation_date" type="DATETIME"/>
+        </createTable>
+
+        <createTable tableName="account_stock">
+            <column name="id" type="BIGINT">
+                <constraints primaryKey="true"/>
+            </column>
+            <column name="stock_id" type="BIGINT"/>
+            <column name="quantity" type="INT"/>
+            <column name="account_id" type="BIGINT"/>
+        </createTable>
+
+        <addForeignKeyConstraint baseColumnNames="account_id"
+                                 baseTableName="account_stock"
+                                 constraintName="fk_account_stock"
+                                 referencedColumnNames="id"
+                                 referencedTableName="account"/>
+
+    </changeSet>
+
+
+</databaseChangeLog>

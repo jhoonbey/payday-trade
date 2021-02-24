@@ -1,0 +1,56 @@
+zuul:
+  ignoredServices: consul
+  prefix: /api
+  routes:
+    customer-service:
+      path: /customer/**
+      serviceId: customer-service
+    account-service:
+      path: /account/**
+      serviceId: account-service
+    order-service:
+      path: /order/**
+      serviceId: order-service
+    stock-service:
+      path: /stock/**
+      serviceId: stock-service
+    notification-service:
+      path: /notification/**
+      serviceId: notification-service
+
+management:
+  endpoints:
+    web:
+      base-path: /management
+      exposure:
+        include: [ "configprops", "env", "health", "info", "threaddump", "logfile", "prometheus" ]
+
+spring:
+  application:
+    name: gateway-service
+  cloud:
+    consul:
+      discovery:
+        catalogServicesWatch:
+          enabled: false
+        healthCheckPath: /management/health
+        instanceId: ${spring.application.name}
+      config:
+        watch:
+          enabled: false
+  main:
+    allow-bean-definition-overriding: true
+
+server:
+  port: ${GATEWAY_PORT:8181}
+
+ribbon:
+  ReadTimeout: 60000
+  ConnectTimeout: 60000
+
+  feign:
+    client:
+      config:
+        default:
+          connectTimeout: 160000000
+          readTimeout: 160000000

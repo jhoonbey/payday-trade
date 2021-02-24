@@ -1,0 +1,2 @@
+rootProject.name = 'payday-trade'
+include('customer-service', 'account-service', 'stock-service', 'order-service', 'notification-service', 'gateway-service')

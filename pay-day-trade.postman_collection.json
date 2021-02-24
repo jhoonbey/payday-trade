@@ -1,0 +1,102 @@
+{
+	"variables": [],
+	"info": {
+		"name": "pay-day-trade",
+		"_postman_id": "c99e32de-b682-b6f7-309c-df14a66eca1c",
+		"description": "",
+		"schema": "https://schema.getpostman.com/json/collection/v2.0.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "create_customer",
+			"request": {
+				"url": "localhost:8181/api/customer/customers/",
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json",
+						"description": ""
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n\t\"name\":\"Jeyhun\",\n\t\"surname\":\"Rahimov\",\n\t\"email\":\"jhoonbey2@gmail.com\",\n\t\"password\":\"123456\",\n\t\"passwordAgain\":\"123456\",\n\t\"username\":\"jeyhunr\"\n}"
+				},
+				"description": ""
+			},
+			"response": []
+		},
+		{
+			"name": "create_account",
+			"request": {
+				"url": "localhost:8181/api/account/accounts",
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json",
+						"description": ""
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n\t\"customerId\":1\n}"
+				},
+				"description": ""
+			},
+			"response": []
+		},
+		{
+			"name": "deposit_account",
+			"request": {
+				"url": "localhost:8181/api/account/accounts/07645095387998727321/deposit",
+				"method": "PUT",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json",
+						"description": ""
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n\t\"amount\": 50000\n}"
+				},
+				"description": ""
+			},
+			"response": []
+		},
+		{
+			"name": "account_cash_balance",
+			"request": {
+				"url": "localhost:8181/api/account/accounts/07645095387998727321/cash-balance",
+				"method": "GET",
+				"header": [],
+				"body": {},
+				"description": ""
+			},
+			"response": []
+		},
+		{
+			"name": "create_order",
+			"request": {
+				"url": "localhost:8181/api/order/orders",
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json",
+						"description": ""
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n\t\"stockId\":1,\n\t\"accountNumber\":\"07645095387998727321\",\n\t\"targetPrice\":1450,\n\t\"quantity\":1,\n\t\"customerId\":1,\n\t\"orderType\":\"SELL\"\n}"
+				},
+				"description": ""
+			},
+			"response": []
+		}
+	]
+}

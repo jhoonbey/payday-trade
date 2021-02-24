@@ -1,0 +1,48 @@
+spring:
+  datasource:
+    driver-class-name: org.h2.Driver
+    url: jdbc:h2:mem:accountdb
+    username: sa
+    password: password
+  jpa:
+    database-platform: org.hibernate.dialect.H2Dialect
+
+  liquibase:
+    change-log: classpath:config/liquibase/master.xml
+  application:
+    name: account-service
+  cloud:
+    consul:
+      discovery:
+        healthCheckPath: /management/health
+        instanceId: ${spring.application.name}:${spring.application.instance-id:${random.value}}
+      config:
+        watch:
+          enabled: false
+    stream:
+      kafka:
+        binder:
+          brokers: ${KAFKA_URI:localhost:9092}
+          configuration:
+            key:
+              deserializer: org.apache.kafka.common.serialization.StringDeserializer
+      bindings:
+        input:
+          group: complete-order-group
+          destination: complete_order
+          contentType: application/json
+
+management:
+  endpoints:
+    web:
+      base-path: /management
+      exposure:
+        include: [ "configprops", "env", "health", "info", "threaddump", "logfile", "prometheus" ]
+
+server:
+  port: 0
+
+redis:
+  codec: org.redisson.codec.JsonJacksonCodec
+  server:
+    url: redis://${REDIS_URI:localhost:6379}
